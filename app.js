@@ -1,22 +1,36 @@
-// Função chamada ao escanear o QR code com sucesso
-function onScanSuccess(decodedText, decodedResult) {
-    // Exibe o resultado do QR code no elemento 'result'
-    document.getElementById('result').innerText = `Código detectado: ${decodedText}`;
-    console.log(decodedResult); // Exibe o objeto completo no console para depuração
+// Função para inicializar o leitor de QR Code
+function startQRCodeScanner() {
+    const qrReader = document.getElementById("qr-reader");
 
-    // Opcional: Para a leitura após detectar um QR code
-    html5QrcodeScanner.clear();  // Pare o scanner ao encontrar um código
+    // Inicia o leitor de QR Code com as configurações desejadas
+    const html5QrCode = new Html5Qrcode("qr-reader");
+
+    // Função de sucesso ao ler o QR Code
+    const onScanSuccess = (decodedText, decodedResult) => {
+        // Exibe o resultado do QR Code na tela
+        document.getElementById("result").innerText = `QR Code detectado: ${decodedText}`;
+        console.log(decodedText);
+    };
+
+    // Função de erro
+    const onScanError = (errorMessage) => {
+        console.warn(`Erro no scanner: ${errorMessage}`);
+    };
+
+    // Configurações de captura da câmera
+    html5QrCode.start(
+        { facingMode: "environment" },  // Usa a câmera traseira (pode ajustar conforme a necessidade)
+        {
+            fps: 10,  // Taxa de quadros
+            qrbox: 250 // Tamanho da área de detecção do QR Code
+        },
+        onScanSuccess,
+        onScanError
+    ).catch((err) => {
+        console.error("Erro ao inicializar o leitor de QR Code:", err);
+        alert("Não foi possível acessar a câmera. Verifique as permissões.");
+    });
 }
 
-// Função chamada se a leitura falhar (não é necessário tratar a cada falha)
-function onScanFailure(error) {
-    // Opcional: Log de erros para depuração
-    console.warn(`Erro na leitura: ${error}`);
-}
-
-// Configuração do leitor de QR code com a biblioteca html5-qrcode
-let html5QrcodeScanner = new Html5QrcodeScanner(
-    "qr-reader",  // ID do elemento onde o scanner vai exibir o vídeo da câmera
-    { fps: 10, qrbox: 250 }  // Configurações do scanner (quadros por segundo e tamanho do box de leitura)
-);
-html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+// Iniciar a leitura do QR Code assim que a página for carregada
+window.onload = startQRCodeScanner;

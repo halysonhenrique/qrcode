@@ -1,26 +1,32 @@
+/* Estilo geral da página */
 body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f9;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-}
-
-#app {
     text-align: center;
-    width: 100%;
-    max-width: 400px;
 }
 
+/* Estilo do título */
+h1 {
+    color: #333;
+}
+
+/* Estilo para o leitor de QR Code */
 #qr-reader {
-    width: 100%;
-    margin: 0 auto;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
 }
 
+/* Estilo do resultado */
 #result {
     margin-top: 20px;
-    font-size: 1.2em;
-    color: green;
+    font-size: 18px;
+    color: #333;
+    font-weight: bold;
 }
